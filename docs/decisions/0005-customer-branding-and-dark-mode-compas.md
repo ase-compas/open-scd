@@ -89,8 +89,31 @@ The host maps nav tokens to `--oscd-internal-nav-*` for `Layout.ts` / `menu-tabs
 | `--oscd-theme-icon-font` | `'Material Icons'` | `'Material Symbols Outlined'` | `--oscd-icon-font`, `--mdc-icon-font` |
 | `--oscd-theme-warning`, `--oscd-theme-text-font-mono` | unset / missing | aligned with oscd-shell | `--oscd-warning`, `--oscd-text-font-mono` |
 
-## Next TODOs
+## Theming default changes for distros
 
-- Add screenshots to the how-tos: which `--oscd-theme-*` tokens paint the start screen, and how plugins pair fill + contrast.
-- Keep a Demo Theme plugin available so distros can verify `--oscd-theme-*` without reading `themes.ts`.
-- Squash trial/error commits before merging to `main`.
+When a distro such as [CoMPAS](https://github.com/com-pas/compas-open-scd) bumps `@compas-oscd/open-scd`, look and behavior change even if the distro sets no `--oscd-theme-*` tokens.
+
+`customer-branding.css` is **not** inside the published `@compas-oscd/open-scd` package. Unbranded distros keep the Solarized defaults from `themes.ts`. To brand, add your own CSS file and a `<link>` in **your** `index.html` — see [customer-branding.md](../../docs/how-to/customer-branding.md).
+
+### What changes without branding CSS
+
+| Change | Before | After | Distro impact |
+|---|---|---|---|
+| Settings default | `'light'` | `'system'` (OS `prefers-color-scheme`) | Users with no `localStorage.theme` (and after Reset) follow the OS. Stored `'light'` / `'dark'` stay. |
+| Icon font | `--mdc-icon-font: 'Material Icons Outlined'` | `'Material Symbols Outlined'` | All MWC icons. The distro must keep shipping that font (CoMPAS already loads it). |
+| App bar / tabs | `--primary` / `--oscd-theme-primary` | `--oscd-theme-nav-*` → `--oscd-internal-nav-*` | Setting `--oscd-theme-primary` no longer paints chrome. Unset nav tokens stay Solarized cyan. |
+| Body background | JS `bodyStyles` hex | `color-scheme` + `light-dark()` | Page background follows the app theme / OS. |
+
+To keep the old light-only default, users pick **Light** in Settings, or the distro ships branding CSS and does not rely on the previous implicit light theme.
+
+### CSS features and browser years
+
+The new theme path uses two CSS functions. **`light-dark()` is the gate.**
+
+| Function | Cross-browser since | Engines | Role here |
+|---|---|---|---|
+| **`light-dark()`** | **Baseline 2024 (May 2024)** | Chrome/Edge 123, Firefox 120, Safari 17.5 | Solarized inversion and `color-scheme` theming. Distros need a 2024-era browser. |
+| **`color-mix()`** | **May 2023** | Chrome 111, Firefox 113, Safari 16.2 | Disabled nav ink and optional darker mixes. Not the limiting factor. |
+
+Older browsers ignore `light-dark()` values and will not invert the palette correctly.
+

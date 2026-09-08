@@ -10,7 +10,9 @@ Toolbar, plugin-catalog, git modules: [customer-branding-advanced.md](./customer
 
 ## Quick start
 
-Fork OpenSCD or CoMPAS and edit `packages/distribution/public/css/customer-branding.css` (or the fork equivalent).
+**This repo (OpenSCD distribution):** edit `packages/distribution/public/css/customer-branding.css`. It is already linked from `packages/distribution/index.html`.
+
+**Distros (like CoMPAS)** consume `@compas-oscd/open-scd` as an npm package. That package does **not** ship `customer-branding.css`. Add your own CSS file (for example `public/css/customer-branding.css`) and a `<link>` in **your** `index.html`. Copy tokens from this repo’s sample file. Do not patch `themes.ts`.
 
 Unset tokens keep the defaults from `themes.ts`.
 
