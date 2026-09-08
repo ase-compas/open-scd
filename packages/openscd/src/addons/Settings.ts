@@ -52,7 +52,7 @@ interface LanguageConfig {
 
 export const defaults: Settings = {
   language: 'en',
-  theme: 'system' as Settings['theme'],
+  theme: 'system',
   mode: 'safe',
   showieds: 'off',
   'IEC 61850-7-2': undefined,
