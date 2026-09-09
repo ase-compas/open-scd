@@ -97,14 +97,19 @@ When a distro such as [CoMPAS](https://github.com/com-pas/compas-open-scd) bumps
 
 ### What changes without branding CSS
 
-| Change | Before | After | Distro impact |
-|---|---|---|---|
-| Settings default | `'light'` | `'system'` (OS `prefers-color-scheme`) | Users with no `localStorage.theme` (and after Reset) follow the OS. Stored `'light'` / `'dark'` stay. |
-| Icon font | `--mdc-icon-font: 'Material Icons Outlined'` | `'Material Symbols Outlined'` | All MWC icons. The distro must keep shipping that font (CoMPAS already loads it). |
-| App bar / tabs | `--primary` / `--oscd-theme-primary` | `--oscd-theme-nav-*` → `--oscd-internal-nav-*` | Setting `--oscd-theme-primary` no longer paints chrome. Unset nav tokens stay Solarized cyan. |
-| Body background | JS `bodyStyles` hex | `color-scheme` + `light-dark()` | Page background follows the app theme / OS. |
+| Change | Before | After | Distro impact | Solution in case of rare problems |
+|---|---|---|---|---|
+| Settings default | `'light'` | `'system'` (OS `prefers-color-scheme`) | Users with no `localStorage.theme` (and after Reset) follow the OS. Stored `'light'` / `'dark'` stay. | User can set the theme in Settings. |
+| Icon font | `--mdc-icon-font: 'Material Icons Outlined'` | `'Material Symbols Outlined'` | All MWC icons. The distro must keep shipping that font (CoMPAS already loads it). | Overwrite with `--oscd-theme-icon-font: 'Material Icons Outlined'` |
+| App bar / tabs | `--primary` / `--oscd-theme-primary` | `--oscd-theme-nav-*` → `--oscd-internal-nav-*` | Setting `--oscd-theme-primary` no longer paints chrome. Unset nav tokens stay Solarized cyan. | Overwrite with `--oscd-theme-nav-*` |
+| Body background | JS `bodyStyles` hex | `color-scheme` + `light-dark()` | Page background follows the app theme / OS. | Overwrite with `--oscd-theme-body-bg` |
 
-To keep the old light-only default, users pick **Light** in Settings, or the distro ships branding CSS and does not rely on the previous implicit light theme.
+Why these defaults changed:
+
+- **Settings default.** If the operating system is set to dark mode, the first launch should show dark mode as well.
+- **Icon font.** `'Material Symbols Outlined'` is Google’s current Material icon font. `'Material Icons Outlined'` should no longer be used. oscd-shell already defaults to `'Material Symbols Outlined'`, so hosts stay aligned. Glyphs can look slightly different.
+- **App bar / tabs.** Chrome is no longer tied to `--oscd-theme-primary`, so the distro can brand the bar without changing plugin fills.
+- **Body background.** Previously a hardcoded hex in JS. It can now be overridden with `--oscd-theme-body-bg`.
 
 ### CSS features and browser years
 

@@ -88,7 +88,9 @@ You can test your customer-Branding with the Bearingpoint Demo Theme Plugin: htt
 
 Contrast on primary/secondary is `--oscd-theme-base2` or `--oscd-theme-base3`. Keep that in mind when defining primary/secondary for light/dark — see [plugin-theming.md § Contrast](./plugin-theming.md#contrast).
 
-`--oscd-theme-nav-*`, `--oscd-theme-body-bg`, and the resolved `--oscd-internal-nav-*` are **host-only**. Plugins must not read them.
+`--oscd-theme-nav-*`, `--oscd-theme-body-bg`, and the resolved `--oscd-internal-nav-*` are **host-only**. Plugins must not read them:
+
+![Main Navigation Tokens](./assets/customer-branding_main-navigation.png)
 
 ## Solarized palette
 
