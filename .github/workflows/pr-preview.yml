@@ -9,6 +9,7 @@ on:
       - closed
     paths:
       - "packages/**"
+      - ".github/workflows/pr-preview.yml"
 
 concurrency: preview-${{ github.ref }}
 env:
@@ -16,6 +17,8 @@ env:
 
 jobs:
   deploy-preview:
+    # Fork PRs get a read-only GITHUB_TOKEN and cannot deploy previews.
+    if: github.event.pull_request.head.repo.full_name == github.repository
     permissions: write-all
     runs-on: ubuntu-22.04
     steps:
