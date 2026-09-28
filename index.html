@@ -32,7 +32,27 @@
 </head>
 
 <body>
-  <open-scd></open-scd>
+  <open-scd id="oscd"></open-scd>
+  
+  <script type="module">
+  const oscd = document.querySelector('#oscd');
+
+  oscd.plugins = {
+    menu: [],
+    editor: [
+      {
+        name: 'Demo-Plugin',
+        src: 'https://ase-compas.github.io/open-scd/demo/hello-world-plugin.js',
+        kind: 'editor',
+        requireDoc: true,
+        position: 'middle',
+        active: true,
+        activeByDefault: false,
+        config: { name: 'BuiltIn-Plugin' },
+      },
+    ],
+  };
+  </script>
 
   <script src="/open-scd/scoped-custom-elements-polyfill.js"></script>
 
